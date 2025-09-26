@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>PundiPundi — Login</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f4f3ee; --ink:#121313; --muted:#6d6f72;
+      --lux:#d4af37; --stroke:rgba(212,175,55,.18); --hair:rgba(0,0,0,.08);
+      --maxw:1180px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--ink);
+      font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; line-height:1.35;
+    }
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:28px 24px 56px}
+
+    /* NAV */
+    .nav{
+      display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+      font-size:12px; letter-spacing:.06em; text-transform:lowercase;
+      margin-bottom:clamp(32px,5vw,64px);
+    }
+    .nav__brand{font-weight:800; letter-spacing:.08em}
+    .nav__center a{color:#3a5efb; text-decoration:none; border-bottom:1px solid transparent}
+    .nav__center a:hover{border-bottom-color:#3a5efb}
+    .nav__right{justify-self:end; display:flex; gap:16px}
+    .nav__right a{color:var(--ink); text-decoration:none; border-bottom:1px solid transparent}
+    .nav__right a:hover{border-bottom-color:var(--ink)}
+    .active{border-bottom:1px solid var(--ink)}
+
+    /* HERO WORD */
+    .hero{margin-top:clamp(6px,3vw,16px); margin-bottom:clamp(18px,4vw,28px)}
+    .hero__word{
+      margin:0; font-weight:800; text-transform:lowercase; letter-spacing:-.02em;
+      font-size:clamp(48px,14vw,140px); line-height:.92;
+    }
+    .hero__rule{height:1px; background:#0f1010; opacity:.7; margin:10px 0 22px}
+
+    /* PANEL FORM */
+    .panel{
+      width:100%; max-width:440px;
+      border:1px solid var(--stroke);
+      border-radius:16px; padding:clamp(18px,3.6vw,28px);
+      background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,.12));
+      backdrop-filter:saturate(120%);
+      box-shadow:0 20px 60px rgba(0,0,0,.05);
+    }
+    .panel h2{margin:0 0 4px 0; font-size:18px; font-weight:600}
+    .panel p.meta{margin:0 0 18px 0; font-size:13px; color:var(--muted)}
+
+    label{display:block; font-size:12px; letter-spacing:.02em; margin:10px 0 6px}
+    input{
+      width:100%; background:transparent; color:var(--ink);
+      border:1px solid var(--hair); border-radius:12px;
+      padding:12px 14px; font-size:15px; outline:none;
+      transition:border-color .2s, box-shadow .2s;
+    }
+    input::placeholder{color:#8b8d90}
+    input:focus{
+      border-color:var(--lux);
+      box-shadow:0 0 0 3px rgba(212,175,55,.22);
+    }
+
+    .btn{
+      width:100%; appearance:none; border:0; cursor:pointer;
+      padding:12px 16px; border-radius:12px; font-weight:600; font-size:16px;
+      background:linear-gradient(90deg,var(--lux),#b9962f); color:#111;
+      box-shadow:0 12px 36px rgba(212,175,55,.22);
+      transition:transform .08s ease, box-shadow .2s ease;
+      margin-top:10px;
+    }
+    .btn:hover{transform:translateY(-1px); box-shadow:0 14px 42px rgba(212,175,55,.28)}
+
+    .helper{font-size:13px; color:var(--muted); margin-top:12px}
+    .helper a{color:var(--ink); text-decoration:none; border-bottom:1px solid transparent}
+    .helper a:hover{border-bottom-color:var(--ink)}
+
+    .alert{
+      margin:0 0 12px; padding:10px 12px; font-size:13px;
+      border:1px solid rgba(220,38,38,.25); color:#8a1f1f; background:#fff5f5; border-radius:10px;
+    }
+
+    @media (max-width:720px){
+      .nav{grid-template-columns:1fr 1fr; row-gap:10px}
+      .nav__center{grid-column:1 / -1; justify-self:center}
+      .nav__right{justify-self:end}
+    }
+
+    .alert{
+      margin:0 0 12px; padding:10px 12px; font-size:13px;
+      border:1px solid rgba(220,38,38,.25); color:#8a1f1f; background:#fff5f5; border-radius:10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="nav__brand">pundipundi</div>
+      <div class="nav__center" display="none"></div>
+      <div class="nav__right">
+        <a class="active" href="/login">login</a>
+        <a href="/register">register</a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+      <h1 class="hero__word">login</h1>
+      <div class="hero__rule"></div>
+    </header>
+
+    <% if (invalid) { %>
+          <div class="alert"><%= invalid %></div>
+      <% } %>
+
+    <!-- PANEL -->
+    <section class="panel">
+      <h2>Selamat datang kembali</h2>
+      <p class="meta">Masuk untuk melanjutkan perjalanan kebaikanmu.</p>
+
+      <!-- tampilkan error kalau pakai EJS & kirim 'invalid' dari controller -->
+      <!-- <% if (typeof invalid !== 'undefined' && invalid) { %>
+        <div class="alert"><%= invalid %></div>
+      <% } %> -->
+
+      <form action="/login" method="POST" novalidate>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="nama@email.com" required />
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="••••••••" required />
+
+        <button class="btn" type="submit">Masuk</button>
+      </form>
+
+      <p class="helper">Belum punya akun? <a href="/register">Daftar sekarang</a></p>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>PundiPundi — Admin · Campaigns</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f4f3ee; --ink:#121313; --muted:#6d6f72;
+      --lux:#d4af37; --stroke:rgba(212,175,55,.18); --hair:rgba(0,0,0,.08);
+      --maxw:1180px; --rule:#0f1010;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--ink);
+      font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; line-height:1.35;
+    }
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:28px 24px 56px}
+
+    /* NAV (admin) */
+    .nav{
+      display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+      font-size:12px; letter-spacing:.06em; text-transform:lowercase;
+      margin-bottom:clamp(28px,5vw,48px);
+    }
+    .nav__brand{font-weight:800; letter-spacing:.08em}
+    .nav__right{justify-self:end}
+    .nav__right a{ color:var(--ink); text-decoration:none; border-bottom:1px solid transparent }
+    .nav__right a:hover{ border-bottom-color:var(--ink) }
+    .nav__actions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:center }
+    .pill{
+      text-decoration:none; font-weight:600; padding:8px 12px; border-radius:999px;
+      border:1px solid var(--stroke); color:var(--ink); background:transparent;
+      transition:transform .06s ease,border-color .2s ease, box-shadow .2s ease;
+    }
+    .pill:hover{ transform:translateY(-1px); border-color:var(--lux) }
+    .pill--gold{
+      background:linear-gradient(90deg,var(--lux),#b9962f); color:#111; border-color:transparent;
+      box-shadow:0 8px 24px rgba(212,175,55,.22);
+    }
+    .pill--gold:hover{ transform:translateY(-1px); box-shadow:0 10px 30px rgba(212,175,55,.28) }
+
+    /* HEADER */
+    .hero{margin-top:6px; margin-bottom:18px}
+    .hero__word{ margin:0; font-weight:800; text-transform:lowercase; letter-spacing:-.02em;
+      font-size:clamp(36px,9vw,84px); line-height:.98; }
+    .hero__rule{ height:1px; background:var(--rule); opacity:.7; margin:10px 0 18px }
+
+    /* TABLE */
+    .tablewrap{ overflow:auto; border:1px solid var(--stroke); border-radius:16px; background:rgba(255,255,255,.25) }
+    table{ width:100%; border-collapse:collapse; min-width:980px }
+    thead th{
+      text-align:left; font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+      padding:12px 14px; border-bottom:1px solid var(--stroke);
+      background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,.18));
+      position:sticky; top:0;
+    }
+    tbody td{ padding:12px 14px; border-bottom:1px solid rgba(0,0,0,.06); vertical-align:top }
+    tbody tr:hover{ background:rgba(212,175,55,.06) }
+
+    .amount{ white-space:nowrap; font-weight:600 }
+    .status{
+      display:inline-block; padding:6px 10px; border-radius:999px;
+      border:1px solid var(--stroke); font-size:12px;
+      background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,.2));
+    }
+    .btn-danger{
+      appearance:none; border:0; cursor:pointer;
+      padding:8px 12px; border-radius:10px; font-weight:600; font-size:14px;
+      background:#fff5f5; color:#8a1f1f; border:1px solid rgba(220,38,38,.35);
+      transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .btn-danger:hover{ transform:translateY(-1px); border-color:rgba(220,38,38,.55); box-shadow:0 8px 20px rgba(220,38,38,.18) }
+
+    /* EMPTY */
+    .empty{
+      border:1px solid var(--stroke); border-radius:16px;
+      background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,.18));
+      padding: clamp(18px,3.6vw,28px);
+      text-align:center; color:var(--muted);
+      box-shadow:0 12px 34px rgba(0,0,0,.05);
+    }
+    .empty h3{ margin:0 0 8px 0; font-size:20px; font-weight:800 }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="nav__brand">pundipundi</div>
+      <div class="nav__actions">
+        <a class="pill pill--gold" href="/adminCampaignList">campaigns</a>
+        <a class="pill" href="/userList">users</a>
+        <a class="pill" href="/donationList">donations</a>
+      </div>
+      <div class="nav__right">
+        <a href="/logout">logout</a>
+      </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="hero">
+      <h1 class="hero__word">campaigns</h1>
+      <div class="hero__rule"></div>
+    </header>
+
+    <% if (!campaigns || !campaigns.length) { %>
+      <section class="empty">
+        <h3>Tidak ada campaign</h3>
+        <p>Belum ada data campaign yang bisa ditampilkan.</p>
+      </section>
+    <% } else { %>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="min-width:200px">Title</th>
+              <th>Description</th>
+              <th>Goal</th>
+              <th>Current</th>
+              <th style="min-width:120px">Start</th>
+              <th style="min-width:120px">End</th>
+              <th>Status</th>
+              <th style="min-width:120px">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% campaigns.forEach(el => { %>
+              <tr>
+                <td><strong><%= el.title %></strong></td>
+                <td class="muted"><%= el.description %></td>
+                <td class="amount"><%= formatRupiah(el.goalAmount) %></td>
+                <td class="amount"><%= formatRupiah(el.currentAmount) %></td>
+                <td><%= el.startDates %></td>
+                <td><%= el.endDates %></td>
+                <td><span class="status"><%= el.status %></span></td>
+                <td>
+                  <a href="/adminCampaignList/<%= el.id %>/delete"
+                     onclick="return confirm('Hapus campaign ini? Tindakan tidak bisa dibatalkan.')">
+                    <button class="btn-danger" type="button">Delete</button>
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

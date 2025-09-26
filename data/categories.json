@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Education",
+    "slug": "education"
+  },
+  {
+    "id": 2,
+    "name": "Health",
+    "slug": "health"
+  },
+  {
+    "id": 3,
+    "name": "Environment",
+    "slug": "environment"
+  }
+]

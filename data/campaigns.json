@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "UserId": 1,
+    "title": "Scholarships for Underprivileged Kids",
+    "description": "Providing scholarships to support education for children from low-income families.",
+    "goalAmount": 50000000,
+    "currentAmount": 15000000,
+    "startDate": "2025-01-01",
+    "endDate": "2025-03-31",
+    "status": "ongoing"
+  },
+  {
+    "id": 2,
+    "UserId": 2,
+    "title": "Free Medical Checkups for Villages",
+    "description": "Funding medical checkups and basic treatments in rural areas.",
+    "goalAmount": 30000000,
+    "currentAmount": 12000000,
+    "startDate": "2025-02-01",
+    "endDate": "2025-04-15",
+    "status": "ongoing"
+  },
+  {
+    "id": 3,
+    "UserId": 3,
+    "title": "Tree Planting Campaign",
+    "description": "Planting 10,000 trees to combat climate change and promote sustainability.",
+    "goalAmount": 20000000,
+    "currentAmount": 5000000,
+    "startDate": "2025-03-01",
+    "endDate": "2025-06-01",
+    "status": "ongoing"
+  }
+]

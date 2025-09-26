@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>PundiPundi — My Profile</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f4f3ee; --ink:#121313; --muted:#6d6f72;
+      --lux:#d4af37; --stroke:rgba(212,175,55,.18); --hair:rgba(0,0,0,.08);
+      --maxw:1180px; --rule:#0f1010;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--ink);
+      font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; line-height:1.35;
+    }
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:28px 24px 56px}
+
+    /* NAV */
+    .nav{
+      display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+      font-size:12px; letter-spacing:.06em; text-transform:lowercase;
+      margin-bottom:clamp(28px,5vw,48px);
+    }
+    .nav__brand{font-weight:800; letter-spacing:.08em}
+    .nav__right{justify-self:end}
+    .nav__right a{ color:var(--ink); text-decoration:none; border-bottom:1px solid transparent }
+    .nav__right a:hover{ border-bottom-color:var(--ink) }
+    .nav__actions{ display:flex; gap:10px; align-items:center }
+    .pill{
+      text-decoration:none; font-weight:600;
+      padding:8px 12px; border-radius:999px;
+      border:1px solid var(--stroke); color:var(--ink);
+      background:transparent; transition:transform .06s ease,border-color .2s ease, box-shadow .2s ease;
+    }
+    .pill:hover{ transform:translateY(-1px); border-color:var(--lux) }
+    .pill--gold{
+      background:linear-gradient(90deg,var(--lux),#b9962f); color:#111; border-color:transparent;
+      box-shadow:0 8px 24px rgba(212,175,55,.22);
+    }
+    .pill--gold:hover{ transform:translateY(-1px); box-shadow:0 10px 30px rgba(212,175,55,.28) }
+
+    /* HEADER */
+    .hero{margin-top:6px; margin-bottom:18px}
+    .hero__word{ margin:0; font-weight:800; text-transform:lowercase; letter-spacing:-.02em;
+      font-size:clamp(36px,9vw,84px); line-height:.98; }
+    .hero__rule{ height:1px; background:var(--rule); opacity:.7; margin:10px 0 18px }
+
+    /* PROFILE CARD */
+    .card{
+      position:relative; /* supaya tombol di pojok bisa absolute */
+      display:grid; grid-template-columns: 140px 1fr;
+      gap: clamp(16px,3vw,24px);
+      border:1px solid var(--stroke); border-radius:16px;
+      padding: clamp(16px,3vw,24px);
+      background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,.12));
+      box-shadow:0 12px 34px rgba(0,0,0,.05);
+      align-items: center;
+    }
+    @media (max-width:680px){
+      .card{ grid-template-columns: 1fr; justify-items:center; text-align:center }
+    }
+
+    .editbtn{
+      position:absolute; top:12px; right:12px;
+      text-decoration:none; font-size:12px; font-weight:600; color:var(--ink);
+      padding:6px 10px; border-radius:999px; border:1px solid var(--stroke);
+      background:rgba(255,255,255,.6);
+      transition:transform .06s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .editbtn:hover{ transform:translateY(-1px); border-color:var(--lux); box-shadow:0 8px 20px rgba(212,175,55,.2) }
+
+    .avatar{
+      width:130px; height:130px; border-radius:50%;
+      object-fit:cover; border:1px solid var(--stroke);
+      background: radial-gradient(120px 80px at 50% 0%, rgba(212,175,55,.08), transparent 60%);
+    }
+
+    .info h2{ margin:0 0 6px 0; font-size:22px; font-weight:800; letter-spacing:.2px }
+    .meta{ margin:0 0 16px 0; font-size:13px; color:var(--muted) }
+
+    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:12px 18px }
+    @media (max-width:680px){ .grid{ grid-template-columns: 1fr } }
+    .row{ display:flex; gap:8px; align-items:baseline }
+    .k{ font-size:12px; color:var(--muted); width:120px; }
+    .v{ font-weight:600 }
+
+    .chip{
+      display:inline-block; padding:6px 10px; border-radius:999px;
+      border:1px solid var(--stroke); font-size:12px;
+      background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,.2));
+      margin-top:10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="nav__brand">pundipundi</div>
+      <div class="nav__actions">
+        <a class="pill" href="/userHome/<%= profile.UserId %>">Home</a>
+        <a class="pill pill--gold" href="/addCampaign/<%= profile.UserId %>">create campaign</a>
+      </div>
+      <div class="nav__right">
+        <a href="/logout">logout</a>
+      </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="hero">
+      <h1 class="hero__word">my profile</h1>
+      <div class="hero__rule"></div>
+    </header>
+
+    <!-- PROFILE CARD -->
+    <section class="card">
+      <!-- Tombol Edit di pojok kanan -->
+      <a class="editbtn" href="/getEditProfile/<%= profile.UserId %>" aria-label="Edit Profile">✎ Edit Profile</a>
+
+      <img class="avatar" src="<%= profile.avatarUrl %>" alt="Avatar" />
+
+      <div class="info">
+        <h2><%= profile.fullName || 'Tanpa Nama' %></h2>
+        <p class="meta">ID Pengguna: #<%= profile.UserId %></p>
+
+        <div class="grid">
+          <div class="row">
+            <div class="k">Phone</div>
+            <div class="v"><%= profile.phoneNumber || '—' %></div>
+          </div>
+          <div class="row">
+            <div class="k">Address</div>
+            <div class="v"><%= profile.address || '—' %></div>
+          </div>
+        </div>
+
+        <span class="chip">user</span>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
